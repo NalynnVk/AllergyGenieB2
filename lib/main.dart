@@ -12,11 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Allergy Genie',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: false,
+        primaryColor: Colors.deepPurple,
+        highlightColor: Colors.pink,
+        fontFamily: 'Roboto',
       ),
       home: const LoginPage(),
     );
@@ -32,71 +33,115 @@ class LoginPage extends StatelessWidget {
     final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 182, 232, 255),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // const Text(
-              //   "Welcome back!",
-              //   style: TextStyle(
-              //       color: Color.fromARGB(255, 0, 0, 0),
-              //       fontSize: 30,
-              //       fontWeight: FontWeight.bold),
-              // ),
-              Image.asset('images/AllergyGenieLogo.png'),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email address',
-                    labelText: 'Email Address',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your password',
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              SizedBox(height: 40.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle login button press here
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return const HomePage();
-                      },
-                    ),
-                  );
-                },
-                child: const Text('Login'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                  minimumSize: const Size(300, 40),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle register button press here
-                },
-                child: const Text("Register"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  minimumSize: const Size(300, 40),
-                ),
-              ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 255, 182, 206),
+              Colors.pinkAccent,
             ],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'images/AllergyGenieLogo.png',
+                    height: 100,
+                  ),
+                  const SizedBox(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your email address',
+                        labelText: 'Email Address',
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your password',
+                        labelText: 'Password',
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle login button press here
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const HomePage();
+                          },
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(300, 60),
+                      primary: Theme.of(context).highlightColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  TextButton(
+                    onPressed: () {
+                      // Handle register button press here
+                    },
+                    child: const Text("Don't have an account? Sign Up",
+                        style: TextStyle(
+                          fontSize: 16,
+                        )),
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size(200, 30),
+                      primary: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
