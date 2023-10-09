@@ -105,34 +105,37 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              controller: _eventController,
-              decoration: InputDecoration(labelText: 'Food and/or Medication'),
-            ),
-            TextFormField(
-              controller: _symptomCategoryController,
-              decoration: InputDecoration(labelText: 'Symptom Category'),
-            ),
-            TextFormField(
-              controller: _severityController,
-              decoration: InputDecoration(labelText: 'Severity (0-10)'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Notes'),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _updateEvent,
-              child: Text('Update Event'),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller: _eventController,
+                decoration:
+                    InputDecoration(labelText: 'Food and/or Medication'),
+              ),
+              TextFormField(
+                controller: _symptomCategoryController,
+                decoration: InputDecoration(labelText: 'Symptom Category'),
+              ),
+              TextFormField(
+                controller: _severityController,
+                decoration: InputDecoration(labelText: 'Severity (0-10)'),
+                keyboardType: TextInputType.number,
+              ),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Notes'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _updateEvent,
+                child: Text('Update Event'),
+              ),
+            ],
+          ),
         ),
       ),
     );
