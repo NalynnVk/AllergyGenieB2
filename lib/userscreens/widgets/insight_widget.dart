@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:calendar/screens/description.dart';
+import 'package:calendar/userscreens/description.dart';
 // import 'package:calendar/screens/insight_page.dart';
 
 class InsightWidget extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:calendar/screens/edit_profile.dart';
-import 'package:calendar/screens/care_plan.dart';
+import 'package:calendar/userscreens/edit_profile.dart';
+import 'package:calendar/userscreens/care_plan.dart';
 import 'package:calendar/main.dart';
 
 class ProfilePage extends StatelessWidget {

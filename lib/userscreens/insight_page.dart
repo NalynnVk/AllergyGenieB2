@@ -1,6 +1,6 @@
 import 'package:calendar/main.dart';
 import 'package:flutter/material.dart';
-import 'package:calendar/screens/widgets/insight_widget.dart';
+import 'package:calendar/userscreens/widgets/insight_widget.dart';
 
 class InsightPage extends StatefulWidget {
   const InsightPage({super.key});

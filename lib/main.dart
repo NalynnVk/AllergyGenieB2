@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:calendar/screens/home_page.dart';
+import 'package:calendar/userscreens/home_page.dart';
+import 'package:calendar/adminscreens/admin_home_page.dart'; // Import your AdminHomePage
 
 void main() {
   runApp(const MyApp());
@@ -24,23 +25,30 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+  _LoginPageState createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  String? selectedUserType = 'User'; // Default to 'User'
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 255, 182, 206),
-              Colors.pinkAccent,
+              Color.fromARGB(255, 194, 182, 255),
+              const Color.fromARGB(255, 255, 91, 146),
             ],
           ),
         ),
@@ -76,7 +84,6 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
@@ -98,17 +105,59 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedUserType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedUserType = newValue;
+                          });
+                        },
+                        items: <String>['User', 'Admin'].map((String userType) {
+                          return DropdownMenuItem<String>(
+                            value: userType,
+                            child: Text(
+                              userType,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
                   ElevatedButton(
                     onPressed: () {
-                      // Handle login button press here
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const HomePage();
-                          },
-                        ),
-                      );
+                      if (selectedUserType == 'User') {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const HomePage();
+                            },
+                          ),
+                        );
+                      } else if (selectedUserType == 'Admin') {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const AdminHomePage(); // Navigate to AdminHomePage
+                            },
+                          ),
+                        );
+                      }
                     },
                     child: const Text(
                       'Login',

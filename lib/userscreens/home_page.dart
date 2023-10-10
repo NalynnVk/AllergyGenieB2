@@ -1,9 +1,9 @@
-import 'package:calendar/screens/medication_page.dart';
+import 'package:calendar/userscreens/medication_page.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:calendar/screens/log_symptom.dart';
-import 'package:calendar/screens/insight_page.dart';
-import 'package:calendar/screens/profile_page.dart';
+import 'package:calendar/userscreens/log_symptom.dart';
+import 'package:calendar/userscreens/insight_page.dart';
+import 'package:calendar/userscreens/profile_page.dart';
 
 void main() {
   runApp(const HomePage());
