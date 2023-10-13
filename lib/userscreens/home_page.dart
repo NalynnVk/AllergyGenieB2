@@ -5,10 +5,7 @@ import 'package:calendar/userscreens/log_symptom.dart';
 import 'package:calendar/userscreens/insight_page.dart';
 import 'package:calendar/userscreens/profile_page.dart';
 
-void main() {
-  runApp(const HomePage());
-}
-
+// stlwidget - HomePage
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
 
@@ -25,6 +22,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+// stfwidget - HomePage
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title});
 

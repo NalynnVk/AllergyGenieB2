@@ -1,20 +1,18 @@
-import 'package:calendar/userscreens/feedback_page.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar/userscreens/edit_profile.dart';
 import 'package:calendar/userscreens/care_plan.dart';
-import 'package:calendar/userscreens/feedback_page.dart';
 import 'package:calendar/main.dart';
 
-class ProfilePage extends StatelessWidget {
+class AdminProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Profile Page'),
-      // ),
+      appBar: AppBar(
+        title: Text('Admin Profile'),
+      ),
       body: ListView(
         children: <Widget>[
-          const SizedBox(height: 30.0),
+          SizedBox(height: 30.0),
 
           // ROW 1: Profile Picture & User Name and Edit Profile Text
           Row(
@@ -26,7 +24,7 @@ class ProfilePage extends StatelessWidget {
                   'images/profile_image2.jpg',
                 ), // Replace with your image
               ),
-              const SizedBox(width: 20.0),
+              SizedBox(width: 20.0),
               Column(
                 children: [
                   const Text(
@@ -36,7 +34,7 @@ class ProfilePage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 3.0),
+                  SizedBox(height: 3.0),
                   GestureDetector(
                     onTap: () {
                       // Navigate to the EditProfile page and pass user data if needed
@@ -94,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 );
               },
-              title: const Text(
+              title: Text(
                 "SHARE CARE PLAN",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -137,11 +135,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   },
-                  title: const Text(
+                  title: Text(
                     "  Contact",
                     style: TextStyle(fontSize: 18),
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 ListTile(
                   onTap: () {
@@ -153,27 +151,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   },
-                  title: const Text(
+                  title: Text(
                     "  Report",
                     style: TextStyle(fontSize: 18),
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return FeedbackPage();
-                        },
-                      ),
-                    );
-                  },
-                  title: const Text(
-                    "  Feedback",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 ListTile(
                   onTap: () {
@@ -185,11 +167,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   },
-                  title: const Text(
+                  title: Text(
                     "  Setting",
                     style: TextStyle(fontSize: 18),
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 ListTile(
                   onTap: () {
@@ -205,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                     '  Logout',
                     style: TextStyle(fontSize: 18),
                   ),
-                  trailing: const Icon(Icons.logout),
+                  trailing: Icon(Icons.logout),
                 ),
               ],
             ),

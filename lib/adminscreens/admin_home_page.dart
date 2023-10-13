@@ -1,10 +1,224 @@
+import 'package:calendar/adminscreens/admin_profile_page.dart';
+import 'package:calendar/adminscreens/user_profile_list.dart';
+import 'package:calendar/main.dart';
 import 'package:flutter/material.dart';
 
 class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
+  const AdminHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        // titleSpacing: 35.0,
+        title: const Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: 18.0), // Adjust the horizontal padding as needed
+          child: Text('Greetings, Administrator 1'),
+        ),
+        backgroundColor: Colors.deepPurple,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: SizedBox(
+              child: IconButton(
+                icon: const Icon(Icons.logout,
+                    size: 25), // Set the size of the icon
+                onPressed: () {
+                  // Navigate to admin profile settings page
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        LoginPage(), // Replace with AdminProfilePage
+                  ));
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Dashboard',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.account_circle, size: 30),
+                    onPressed: () {
+                      // Navigate to admin profile settings page
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            AdminProfilePage(), // Replace with AdminProfilePage
+                      ));
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 05),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      DashboardCard(
+                        icon: Icons.person,
+                        label: 'User',
+                        onPressed: () {
+                          // Navigate to admin profile settings page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => UserProfileList(),
+                          ));
+                        },
+                      ),
+                      DashboardCard(
+                        icon: Icons.healing,
+                        label: 'Symptom',
+                        onPressed: () {
+                          // Navigate to symptom page
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      DashboardCard(
+                        icon: Icons.medication,
+                        label: 'Medication',
+                        onPressed: () {
+                          // Navigate to medication page
+                        },
+                      ),
+                      DashboardCard(
+                        icon: Icons.folder_shared_sharp,
+                        label: 'Care Plan',
+                        onPressed: () {
+                          // Navigate to care plan page
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      DashboardCard(
+                        icon: Icons.article,
+                        label: 'Resources',
+                        onPressed: () {
+                          // Navigate to resources page
+                        },
+                      ),
+                      DashboardCard(
+                        icon: Icons.contact_phone_rounded,
+                        label: 'Emergency Contact',
+                        onPressed: () {
+                          // Navigate to resources page
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      DashboardCard(
+                        icon: Icons.analytics,
+                        label: 'Report',
+                        onPressed: () {
+                          // Navigate to feedback page
+                        },
+                      ),
+                      DashboardCard(
+                        icon: Icons.feedback,
+                        label: 'Feedback',
+                        onPressed: () {
+                          // Navigate to feedback page
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DashboardCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+
+  const DashboardCard({
+    required this.icon,
+    required this.label,
+    this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          width: 170, // Set width to ensure equal-sized cards
+          height: 170, // Set height to ensure equal-sized cards
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  size: 80,
+                  color: Theme.of(context).primaryColor,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center, // Center-align text
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

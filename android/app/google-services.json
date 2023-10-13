@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "936376747619",
-    "project_id": "allergygenie1",
-    "storage_bucket": "allergygenie1.appspot.com"
+    "project_number": "469738442216",
+    "project_id": "allergygenieb2",
+    "storage_bucket": "allergygenieb2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:936376747619:android:936564aa68667b17065a56",
+        "mobilesdk_app_id": "1:469738442216:android:e2c8a86b1f8f9a91d8685d",
         "android_client_info": {
           "package_name": "com.example.calendar"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC-nY1QFm8ez6m1GkidtqHdIDBxFS8hVeM"
+          "current_key": "AIzaSyANio6Esrtfbo4vU-FOjMFKvpWsOZclewA"
         }
       ],
       "services": {

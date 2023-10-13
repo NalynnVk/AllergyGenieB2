@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:calendar/userscreens/home_page.dart';
-import 'package:calendar/adminscreens/admin_home_page.dart'; // Import your AdminHomePage
+import 'package:calendar/adminscreens/admin_home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.deepPurple,
-        highlightColor: Colors.pink,
+        highlightColor: Colors.pink, // Adjust this color to match your design
         fontFamily: 'Roboto',
       ),
       home: const LoginPage(),
@@ -33,7 +32,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? selectedUserType = 'User'; // Default to 'User'
+  String? selectedUserType = 'User';
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -42,13 +41,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
               Color.fromARGB(255, 194, 182, 255),
-              const Color.fromARGB(255, 255, 91, 146),
+              Color.fromARGB(255, 255, 91, 146),
             ],
           ),
         ),
@@ -63,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                     'images/AllergyGenieLogo.png',
                     height: 100,
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 15.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
@@ -84,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 05.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
@@ -105,10 +105,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 22.0),
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30.0),
@@ -125,64 +126,75 @@ class _LoginPageState extends State<LoginPage> {
                             value: userType,
                             child: Text(
                               userType,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              style: const TextStyle(
+                                fontSize: 20, // Increase the font size
+                                color: Colors.black, // Text color
+                                fontWeight: FontWeight.bold, // Text style
                               ),
                             ),
                           );
                         }).toList(),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
+                        ),
+                        isExpanded:
+                            true, // To make it fill the container horizontally
+                        iconSize: 30, // Adjust the icon size
+                        style: const TextStyle(
+                          fontSize: 20, // Adjust the font size
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (selectedUserType == 'User') {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const HomePage();
-                            },
-                          ),
-                        );
-                      } else if (selectedUserType == 'Admin') {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const AdminHomePage(); // Navigate to AdminHomePage
-                            },
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  const SizedBox(height: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (selectedUserType == 'User') {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const HomePage();
+                              },
+                            ),
+                          );
+                        } else if (selectedUserType == 'Admin') {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const AdminHomePage();
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(300, 60),
-                      primary: Theme.of(context).highlightColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(300, 60),
+                        primary: Theme.of(context).highlightColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        elevation: 8,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
                   TextButton(
                     onPressed: () {
                       // Handle register button press here
                     },
-                    child: const Text("Don't have an account? Sign Up",
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
+                    child: const Text(
+                      "Don't have an account? Sign Up",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
                     style: TextButton.styleFrom(
                       minimumSize: const Size(200, 30),
                       primary: Colors.white,
