@@ -1,8 +1,13 @@
+import 'package:calendar/firebase_options.dart';
+import 'package:calendar/sign_up.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar/userscreens/home_page.dart';
 import 'package:calendar/adminscreens/admin_home_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -146,9 +151,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 33.0),
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 3),
                     child: ElevatedButton(
                       onPressed: () {
                         if (selectedUserType == 'User') {
@@ -188,7 +194,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Handle register button press here
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return SignUp();
+                          },
+                        ),
+                      );
                     },
                     child: const Text(
                       "Don't have an account? Sign Up",
