@@ -5,7 +5,6 @@ import 'package:calendar/userscreens/log_symptom.dart';
 import 'package:calendar/userscreens/insight_page.dart';
 import 'package:calendar/userscreens/profile_page.dart';
 
-// stlwidget - HomePage
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
 
@@ -22,7 +21,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// stfwidget - HomePage
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title});
 
@@ -227,7 +225,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-// bottom navigation bar
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -348,32 +345,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Icon(Icons.add),
               )
             : null,
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: _currentTabIndex == 0
-                ? ElevatedButton(
-                    onPressed: () {
-                      // Handle emergency call action here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 255, 104, 139),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                    ),
-                    child: const Text(
-                      'EMERGENCY CALL',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : null,
+        bottomNavigationBar:
+            _currentTabIndex == 0 ? _buildBottomNavigationBar() : null,
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            // Handle emergency call action here
+          },
+          style: ElevatedButton.styleFrom(
+            primary: const Color.fromARGB(255, 255, 104, 139),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+          ),
+          child: const Text(
+            'EMERGENCY CALL',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

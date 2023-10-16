@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:calendar/userscreens/description.dart';
-// import 'package:calendar/screens/insight_page.dart';
 
 class InsightWidget extends StatelessWidget {
   const InsightWidget({
-    super.key,
+    Key? key,
     required this.title,
     required this.imagePath,
     required this.description,
-  });
+  }) : super(key: key);
 
   final String title;
   final String imagePath;
@@ -32,7 +31,7 @@ class InsightWidget extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         decoration: BoxDecoration(
           color: Colors.amber,
           borderRadius: BorderRadius.circular(15),
@@ -47,7 +46,13 @@ class InsightWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Image.asset(imagePath),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              child: Image.asset(imagePath),
+            ),
             ListTile(
               title: Text(title),
               trailing: const Icon(Icons.arrow_forward_ios_rounded),

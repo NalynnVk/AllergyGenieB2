@@ -2,7 +2,7 @@ import 'package:calendar/userscreens/feedback_page.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar/userscreens/edit_profile.dart';
 import 'package:calendar/userscreens/care_plan.dart';
-import 'package:calendar/userscreens/feedback_page.dart';
+// import 'package:calendar/userscreens/feedback_page.dart';
 import 'package:calendar/main.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
               Column(
                 children: [
                   const Text(
-                    'Davika Lyn Sharma',
+                    'Davikah Sharma',
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,

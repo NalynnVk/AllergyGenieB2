@@ -12,9 +12,9 @@ class AdminHomePage extends StatelessWidget {
       appBar: AppBar(
         // titleSpacing: 35.0,
         title: const Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 18.0), // Adjust the horizontal padding as needed
-          child: Text('Greetings, Administrator 1'),
+          padding:
+              EdgeInsets.symmetric(), // Adjust the horizontal padding as needed
+          child: Text('Admin Dashboard'),
         ),
         backgroundColor: Colors.deepPurple,
         actions: [
@@ -22,13 +22,15 @@ class AdminHomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: SizedBox(
               child: IconButton(
-                icon: const Icon(Icons.logout,
-                    size: 25), // Set the size of the icon
+                icon: const Icon(
+                  Icons.account_circle,
+                  size: 30,
+                ), // Set the size of the icon
                 onPressed: () {
                   // Navigate to admin profile settings page
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
-                        LoginPage(), // Replace with AdminProfilePage
+                        AdminProfilePage(), // Replace with AdminProfilePage
                   ));
                 },
               ),
@@ -36,36 +38,78 @@ class AdminHomePage extends StatelessWidget {
           ),
         ],
       ),
+      drawer: SafeArea(
+        child: Drawer(
+          child: Column(
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(color: Colors.amber),
+                child: ListTile(
+                  title: Text(
+                    'Allergy Genie',
+                    style: TextStyle(color: Colors.black, fontSize: 20.0),
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.settings),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    //pushReplacement - buang given existing back button
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const LoginPage();
+                      },
+                    ),
+                  );
+                },
+                leading: const Icon(Icons.logout),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ), // Drawer - tambah 3 garis / logout drawer
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'Dashboard',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.account_circle, size: 30),
-                    onPressed: () {
-                      // Navigate to admin profile settings page
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            AdminProfilePage(), // Replace with AdminProfilePage
-                      ));
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 05),
+              // Row(
+              //   children: [
+              //     const Padding(
+              //       padding: EdgeInsets.all(16.0),
+              //       child: Text(
+              //         'Dashboard',
+              //         style:
+              //             TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //     const Spacer(),
+              //     IconButton(
+              //       icon: const Icon(Icons.account_circle, size: 30),
+              //       onPressed: () {
+              //         // Navigate to admin profile settings page
+              //         Navigator.of(context).push(MaterialPageRoute(
+              //           builder: (context) =>
+              //               AdminProfilePage(), // Replace with AdminProfilePage
+              //         ));
+              //       },
+              //     ),
+              //   ],
+              // ),
+              const SizedBox(height: 13),
               Center(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -195,8 +239,8 @@ class DashboardCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Container(
-          width: 170, // Set width to ensure equal-sized cards
-          height: 170, // Set height to ensure equal-sized cards
+          width: 140, // Set width to ensure equal-sized cards
+          height: 140, // Set height to ensure equal-sized cards
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -204,14 +248,14 @@ class DashboardCard extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  size: 80,
+                  size: 50,
                   color: Theme.of(context).primaryColor,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   label,
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center, // Center-align text
                 ),
               ],
