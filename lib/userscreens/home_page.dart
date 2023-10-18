@@ -47,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _severityController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-  String? _selectedFoodMedication;
   String? _selectedSymptomCategory; // Added for symptom category
+  String? _selectedFoodMedication;
 
   late final ValueNotifier<List<Event>> _selectedEvents;
   int _currentTabIndex = 0;
@@ -362,8 +362,9 @@ class _MyHomePageState extends State<MyHomePage> {
       final List<Event>? dayEvents = events[_selectedDay!];
       if (dayEvents != null) {
         final index = dayEvents.indexWhere((event) =>
-            event.timestamp == updatedEvent.timestamp &&
-            event.foodOrMedication == updatedEvent.foodOrMedication);
+            event.timestamp ==
+            updatedEvent
+                .timestamp); // before change event.timestamp == updatedEvent.timestamp && event.foodOrMedication == updatedEvent.foodOrMedication
 
         if (index != -1) {
           dayEvents[index] = updatedEvent;
@@ -499,30 +500,44 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                   ),
-                  ValueListenableBuilder<List<Event>>(
-                    valueListenable: _selectedEvents,
-                    builder: (context, value, _) {
-                      return Column(
-                        children: value.map((event) {
-                          return Card(
-                            // 8. Use cards for event list
-                            child: ListTile(
-                              // title: Text(event.foodOrMedication),
-                              title: Text(event.symptomCategory),
-                              subtitle: Text(
-                                'Food/Medication: ${event.foodOrMedication}, Severity: ${event.severity}',
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                    child: ValueListenableBuilder<List<Event>>(
+                      valueListenable: _selectedEvents,
+                      builder: (context, value, _) {
+                        return Column(
+                          children: value.map((event) {
+                            return Card(
+                              // 8. Use cards for event list
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // title: Text(event.foodOrMedication),
+                                  title: Text(event.symptomCategory),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "Allergen  :  ${event.foodOrMedication}"),
+                                      Text("Severity   :  ${event.severity}"),
+                                    ],
+                                  ),
+
+                                  onTap: () async {
+                                    await _openEventDetails(event);
+                                  },
+                                  onLongPress: () {
+                                    _deleteEvent(event);
+                                  },
+                                ),
                               ),
-                              onTap: () async {
-                                await _openEventDetails(event);
-                              },
-                              onLongPress: () {
-                                _deleteEvent(event);
-                              },
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    },
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
