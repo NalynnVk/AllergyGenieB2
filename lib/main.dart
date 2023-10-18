@@ -39,7 +39,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? selectedUserType = 'User';
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
@@ -71,14 +71,16 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
-                      controller: emailController,
+                      controller: phoneController,
+                      keyboardType:
+                          TextInputType.phone, // Use phone keyboard type
                       decoration: InputDecoration(
-                        hintText: 'Enter your email address',
-                        labelText: 'Email Address',
+                        hintText: 'Enter your phone number',
+                        labelText: 'Phone Number',
                         fillColor: Colors.white,
                         filled: true,
                         prefixIcon: Icon(
-                          Icons.email,
+                          Icons.phone,
                           color: Theme.of(context).primaryColor,
                         ),
                         border: OutlineInputBorder(
@@ -88,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 05.0),
+                  const SizedBox(height: 5.0),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(

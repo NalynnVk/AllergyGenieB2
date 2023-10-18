@@ -162,6 +162,7 @@ class _InsightPageState extends State<InsightPage> {
                 imagePath: 'images/Management Strategies.png',
                 description:
                     'There is a growing trend towards personalized food allergy management strategies. This means that people with food allergies are working with their doctors and other healthcare professionals to develop individualized plans that meet their specific needs. For example, some people with food allergies may be able to tolerate small amounts of their allergen without having a reaction. Others may be able to undergo oral immunotherapy, which involves gradually exposing themselves to their allergen in small amounts over time.'),
+            // Spacer()
           ],
         ),
       ),

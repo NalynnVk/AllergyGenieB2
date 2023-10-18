@@ -14,6 +14,11 @@ class HomePage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        // 1. Consistent color scheme and typography
+        textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 16.0),
+          bodyText2: TextStyle(fontSize: 14.0),
+        ),
       ),
       home: const MyHomePage(title: 'Allergy Genie'),
       debugShowCheckedModeBanner: false,
@@ -34,13 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime today = DateTime.now();
   DateTime? _selectedDay;
   DateTime _focusedDay = DateTime.now();
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   Map<DateTime, List<Event>> events = {};
-  TextEditingController _eventController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _symptomCategoryController = TextEditingController();
+  // TextEditingController _symptomCategoryController = TextEditingController();
   TextEditingController _severityController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+
+  String? _selectedFoodMedication;
+  String? _selectedSymptomCategory; // Added for symptom category
 
   late final ValueNotifier<List<Event>> _selectedEvents;
   int _currentTabIndex = 0;
@@ -86,73 +94,256 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       builder: (context) {
+        int _severity = 0; // Initial severity value
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           scrollable: true,
-          title: const Text("Symptom Details"),
+          title: const Center(
+              child: Text(
+            "Health Journal",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
           content: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
-                TextField(
-                  controller: _eventController,
-                  decoration: const InputDecoration(
-                    labelText: 'Food and/or Medication',
-                  ),
-                ),
-                TextField(
-                  controller: _symptomCategoryController,
+                DropdownButtonFormField<String>(
+                  // Symptom Category Dropdown
+                  value: _selectedSymptomCategory,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'Skin-related Symptoms',
+                      child: Text('Skin-related Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Nasal Symptoms',
+                      child: Text('Nasal Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Ocular Symptoms',
+                      child: Text('Ocular Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Gastrointestinal Symptoms',
+                      child: Text('Gastrointestinal Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Respiratory Symptoms',
+                      child: Text('Respiratory Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Oral Symptoms',
+                      child: Text('Oral Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Cardiovascular Symptoms',
+                      child: Text('Cardiovascular Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Systemic Symptoms',
+                      child: Text('Systemic Symptoms'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Anaphylaxis Symptoms',
+                      child: Text('Anaphylaxis Symptoms'),
+                    ),
+                    // Add all other symptom category options here
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedSymptomCategory = value;
+                    });
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Symptom Category',
                   ),
                 ),
+                DropdownButtonFormField<String>(
+                  value: _selectedFoodMedication,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'Dairy products (eg: milk)',
+                      child: Text('Dairy products (eg: milk)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Eggs (eg: chicken eggs)',
+                      child: Text('Eggs (eg: chicken eggs)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Tree nuts (eg: almonds)',
+                      child: Text('Tree nuts (eg: almonds)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Soybeans (eg: soy milk)',
+                      child: Text('Soybeans (eg: soy milk)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Wheat (eg: bread)',
+                      child: Text('Wheat (eg: bread)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Seeds (eg: sesame)',
+                      child: Text('Seeds (eg: sesame)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Fish (eg: tuna)',
+                      child: Text('Fish (eg: tuna)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Shellfish (eg: shrimp)',
+                      child: Text('Shellfish (eg: shrimp)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Sulfites (e.g., dried fruits)',
+                      child: Text('Sulfites (e.g., dried fruits)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Chickpeas (e.g., hummus)',
+                      child: Text('Chickpeas (e.g., hummus)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Lentils (e.g., lentil soup)',
+                      child: Text('Lentils (e.g., lentil soup)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Peas (e.g., green peas)',
+                      child: Text('Peas (e.g., green peas)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Potatoes (e.g., mashed potato)',
+                      child: Text('Potatoes (e.g., mashed potato)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Soy sauce (e.g., for seasoning)',
+                      child: Text('Soy sauce (e.g., for seasoning)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Fish sauce (e.g., Asian dishes)',
+                      child: Text(
+                        'Fish sauce (e.g., Asian dishes)',
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Shellfish extract (e.g., broth)',
+                      child: Text('Shellfish extract (e.g., broth)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'MSG (Monosodium glutamate)',
+                      child: Text('MSG (Monosodium glutamate)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Food dyes (e.g., Red 40)',
+                      child: Text('Food dyes (e.g., Red 40)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Preservatives',
+                      child: Text('Preservatives'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Artificial sweeteners',
+                      child: Text('Artificial sweeteners'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Penicillins (eg: penicillin)',
+                      child: Text('Penicillins (eg: penicillin)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Cephalosporin (eg: cefaclor)',
+                      child: Text('Cephalosporin (eg: cefaclor)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Sulfonamides (eg: Mafenide)',
+                      child: Text('Sulfonamides (eg: Mafenide)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Ibuprofen (eg: Midol)',
+                      child: Text('Ibuprofen (eg: Midol)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Aspirin (eg: Advil)',
+                      child: Text('Aspirin (eg: Advil)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'ARBs (e.g., losartan)',
+                      child: Text('ARBs (e.g., losartan)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Acetaminophen (eg: Panadol)',
+                      child: Text('Acetaminophen (eg: Panadol)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Anticonvulsants (eg: valproic)',
+                      child: Text('Anticonvulsants (eg: valproic)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Insulin (eg: Humulin)',
+                      child: Text('Insulin (eg: Humulin)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'NSAIDs drugs (eg: ibuprofen)',
+                      child: Text('NSAIDs drugs (eg: ibuprofen)'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'ACE inhibitors (e.g., lisinopril)',
+                      child: Text('ACE inhibitors (e.g., lisinopril)'),
+                    ),
+                    // ... other unique items
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedFoodMedication = value;
+                    });
+                  },
+                  decoration:
+                      const InputDecoration(labelText: 'Food / Medication'),
+                ),
                 TextField(
                   controller: _severityController,
                   decoration: const InputDecoration(
-                    labelText: 'Severity (0-10)',
+                    labelText: 'Symptom Severity (0-10)',
                   ),
                 ),
                 TextField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
-                    labelText: 'Notes',
+                    labelText: 'Additional Notes',
                   ),
                 ),
               ],
             ),
           ),
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                if (_selectedDay != null &&
-                    _eventController.text.isNotEmpty &&
-                    _descriptionController.text.isNotEmpty &&
-                    _symptomCategoryController.text.isNotEmpty) {
-                  int severityValue = 0;
-                  try {
-                    severityValue = int.parse(_severityController.text);
-                    if (severityValue < 0 || severityValue > 10) {
-                      throw const FormatException(
-                          "Severity must be between 0 and 10");
-                    }
-                  } catch (e) {
-                    print("Error parsing severity: $e");
-                    return;
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_selectedDay != null &&
+                      _selectedFoodMedication != null &&
+                      _descriptionController.text.isNotEmpty &&
+                      _selectedSymptomCategory != null) {
+                    final Event newEvent = Event(
+                      foodOrMedication: _selectedFoodMedication!,
+                      notes: _descriptionController.text,
+                      severity: _severity, // Use the updated severity value
+                      timestamp: DateTime.now(),
+                      symptomCategory: _selectedSymptomCategory!,
+                    );
+
+                    _addEvent(newEvent);
+                    Navigator.of(context).pop();
+                    _selectedEvents.value = _getEventsForDay(_selectedDay);
                   }
-
-                  final Event newEvent = Event(
-                    foodOrMedication: _eventController.text,
-                    notes: _descriptionController.text,
-                    severity: severityValue,
-                    timestamp: DateTime.now(),
-                    symptomCategory: _symptomCategoryController.text,
-                  );
-
-                  _addEvent(newEvent);
-                  Navigator.of(context).pop();
-                  _selectedEvents.value = _getEventsForDay(_selectedDay);
-                }
-              },
-              child: const Text("Submit"),
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: Text("Save")),
+                ),
+              ),
             ),
           ],
         );
@@ -183,7 +374,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _deleteEvent(Event event) {
-    print('Deleting event: ${event.foodOrMedication}'); // Debug line
+    print('Deleting event: ${event.foodOrMedication}');
     showDialog(
       context: context,
       builder: (context) {
@@ -193,14 +384,14 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                print('Cancel delete'); // Debug line
+                print('Cancel delete');
                 Navigator.of(context).pop();
               },
               child: const Text("Cancel"),
             ),
             ElevatedButton(
               onPressed: () {
-                print('Confirm delete'); // Debug line
+                print('Confirm delete');
                 _removeEvent(event);
                 Navigator.of(context).pop();
                 _selectedEvents.value = _getEventsForDay(_selectedDay);
@@ -313,17 +504,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context, value, _) {
                       return Column(
                         children: value.map((event) {
-                          return ListTile(
-                            title: Text(event.foodOrMedication),
-                            subtitle: Text(
-                              'Severity: ${event.severity}, Symptom Category: ${event.symptomCategory}',
+                          return Card(
+                            // 8. Use cards for event list
+                            child: ListTile(
+                              // title: Text(event.foodOrMedication),
+                              title: Text(event.symptomCategory),
+                              subtitle: Text(
+                                'Food/Medication: ${event.foodOrMedication}, Severity: ${event.severity}',
+                              ),
+                              onTap: () async {
+                                await _openEventDetails(event);
+                              },
+                              onLongPress: () {
+                                _deleteEvent(event);
+                              },
                             ),
-                            onTap: () async {
-                              await _openEventDetails(event);
-                            },
-                            onLongPress: () {
-                              _deleteEvent(event);
-                            },
                           );
                         }).toList(),
                       );

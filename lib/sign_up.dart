@@ -1,9 +1,6 @@
 import 'package:calendar/main.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const SignUp());
-}
+import 'package:intl/intl.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({Key? key});
@@ -32,7 +29,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final List<Map<String, dynamic>> allergensList = [];
@@ -48,19 +45,20 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 194, 182, 255),
-                Color.fromARGB(255, 255, 91, 146),
-              ],
-            ),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 194, 182, 255),
+              Color.fromARGB(255, 255, 91, 146),
+            ],
           ),
-          child: Center(
+        ),
+        child: Center(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(32.0),
               child: Column(
@@ -73,9 +71,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 20.0),
                   _buildInputField(nameController, 'Name', Icons.person),
                   const SizedBox(height: 15.0),
-                  _buildInputField(emailController, 'Email', Icons.email),
+                  _buildInputField(
+                      dobController, 'Date of Birth', Icons.date_range),
                   const SizedBox(height: 15.0),
-                  _buildInputField(phoneController, 'Phone', Icons.phone),
+                  _buildInputField(
+                      phoneController, 'Phone Number', Icons.phone),
                   const SizedBox(height: 15.0),
                   _buildInputField(passwordController, 'Password', Icons.lock),
                   const SizedBox(height: 20.0),
@@ -154,6 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: const EdgeInsets.all(16.0),
       child: TextFormField(
         controller: controller,
+        keyboardType: TextInputType.text,
         decoration: InputDecoration(
           hintText: 'Enter your $label',
           labelText: label,
@@ -168,6 +169,34 @@ class _SignUpPageState extends State<SignUpPage> {
             borderSide: BorderSide.none,
           ),
         ),
+        onTap: () async {
+          if (label == 'Date of Birth') {
+            // Show date picker when the text field is tapped
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+              builder: (BuildContext context, Widget? child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    primaryColor:
+                        Colors.deepPurple, // Set your desired color here
+                    colorScheme:
+                        const ColorScheme.light(primary: Colors.deepPurple),
+                    buttonTheme: const ButtonThemeData(
+                        textTheme: ButtonTextTheme.primary),
+                  ),
+                  child: child!,
+                );
+              },
+            );
+            if (pickedDate != null && pickedDate != DateTime.now()) {
+              // Update the text field with the selected date
+              controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+            }
+          }
+        },
       ),
     );
   }
@@ -184,11 +213,10 @@ class _SignUpPageState extends State<SignUpPage> {
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius:
-                    BorderRadius.circular(10.0), // Smaller border radius
+                borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2), // Add a subtle shadow
+                    color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 1,
                     blurRadius: 2,
                     offset: const Offset(0, 2),
@@ -247,6 +275,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             // 'Tetracyclines (e.g., doxycycline)',
                             // 'Quinolones (e.g., ciprofloxacin)',
                             // 'Aminoglycosides (e.g., Amikacin)',
+                            // ... (other items)
                           ].map<DropdownMenuItem<String>>(
                             (String value) {
                               return DropdownMenuItem<String>(
@@ -260,8 +289,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       const SizedBox(width: 10),
                     ],
                   ),
-                  const SizedBox(
-                      height: 8), // Add some spacing below the dropdown
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       const SizedBox(width: 10),
@@ -276,9 +304,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         '${allergensList[index]['severity']}',
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: FontWeight.bold, // Make the severity bold
-                          color: Theme.of(context)
-                              .highlightColor, // Match the theme color
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).highlightColor,
                         ),
                       ),
                     ],
