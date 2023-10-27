@@ -1,9 +1,11 @@
 import 'package:calendar/userscreens/medication_page.dart';
+// import 'package:calendar/userscreens/report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:calendar/userscreens/log_symptom.dart';
 import 'package:calendar/userscreens/insight_page.dart';
 import 'package:calendar/userscreens/profile_page.dart';
+import 'package:calendar/userscreens/number_stepper.dart'; // Import the custom number stepper widget
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -101,13 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           scrollable: true,
           title: const Center(
-              child: Text(
-            "Health Journal",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            child: Text(
+              "Health Journal",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          )),
+          ),
           content: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
@@ -303,16 +306,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       const InputDecoration(labelText: 'Food / Medication'),
                 ),
                 TextField(
-                  controller: _severityController,
-                  decoration: const InputDecoration(
-                    labelText: 'Symptom Severity (0-10)',
-                  ),
-                ),
-                TextField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
                     labelText: 'Additional Notes',
                   ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Symptom Severity (0-10)',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromARGB(255, 124, 124, 124),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                NumberStepper(
+                  // Replace TextField with NumberStepper
+                  initialValue: _severity,
+                  min: 0,
+                  max: 10,
+                  step: 1,
+                  onChanged: (value) {
+                    setState(() {
+                      _severity = value;
+                    });
+                  },
                 ),
               ],
             ),
@@ -340,7 +358,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Center(child: Text("Save")),
                 ),
               ),
@@ -376,43 +394,44 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _deleteEvent(Event event) {
     print('Deleting event: ${event.foodOrMedication}');
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Delete Event"),
-          content: const Text("Are you sure you want to delete this event?"),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                print('Cancel delete');
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                print('Confirm delete');
-                _removeEvent(event);
-                Navigator.of(context).pop();
-                _selectedEvents.value = _getEventsForDay(_selectedDay);
-              },
-              child: const Text("Delete"),
-            ),
-          ],
-        );
-      },
-    );
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Delete Event"),
+            content: const Text("Are you sure you want to delete this event?"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  print('Cancel delete');
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Cancel"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print('Confirm delete');
+                  _removeEvent(event);
+                  Navigator.of(context).pop();
+                  _selectedEvents.value = _getEventsForDay(_selectedDay);
+                },
+                child: const Text("Delete"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _removeEvent(Event event) {
     final List<Event>? dayEvents = events[_selectedDay!];
     if (dayEvents != null) {
-      dayEvents.removeWhere(
-        (e) =>
-            e.timestamp == event.timestamp &&
-            e.foodOrMedication == event.foodOrMedication,
-      );
+      dayEvents.removeWhere((e) =>
+          e.timestamp == event.timestamp &&
+          e.foodOrMedication == event.foodOrMedication &&
+          e.severity == event.severity);
       events[_selectedDay!] = dayEvents;
     }
   }
@@ -427,9 +446,9 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           bottom: TabBar(
             tabs: const [
-              Tab(icon: Icon(Icons.home), text: 'Home'),
-              Tab(icon: Icon(Icons.medical_information), text: 'Med Info'),
-              Tab(icon: Icon(Icons.insights), text: 'Insight'),
+              Tab(icon: Icon(Icons.home_filled), text: 'Home'),
+              Tab(icon: Icon(Icons.medical_services), text: 'Reminder'),
+              Tab(icon: Icon(Icons.article_rounded), text: 'Insight'),
               Tab(icon: Icon(Icons.person), text: 'Profile'),
             ],
             onTap: (index) {

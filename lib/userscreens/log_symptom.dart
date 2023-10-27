@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:calendar/userscreens/number_stepper.dart'; // Import the custom number stepper widget
 
 class Event {
   final String foodOrMedication;
@@ -27,47 +28,53 @@ class EventDetailsPage extends StatefulWidget {
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
   // late TextEditingController _symptomCategoryController;
-  late TextEditingController _severityController;
+  // late TextEditingController _severityController;
   late TextEditingController _descriptionController;
 
   String? _selectedSymptomCategory;
   String? _selectedFoodMedication;
+
+  int _severity = 0; // Added a variable to store symptom severity
 
   @override
   void initState() {
     super.initState();
     // _symptomCategoryController =
     //     TextEditingController(text: widget.event.symptomCategory);
-    _severityController =
-        TextEditingController(text: widget.event.severity.toString());
-    _descriptionController = TextEditingController(text: widget.event.notes);
+    // _severityController =
+    //     TextEditingController(text: widget.event.severity.toString());
     _selectedSymptomCategory = widget.event.symptomCategory;
     _selectedFoodMedication = widget.event.foodOrMedication;
+    _descriptionController = TextEditingController(text: widget.event.notes);
+
+    // Initialize severity with the value from the event
+    _severity = widget.event.severity;
   }
 
   @override
   void dispose() {
     // _symptomCategoryController.dispose();
-    _severityController.dispose();
+    // _severityController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }
 
   void _updateEvent() {
     final updatedEvent = Event(
-      symptomCategory:
-          _selectedSymptomCategory ?? '', // Use the selected symptom category
+      symptomCategory: _selectedSymptomCategory ?? '',
       foodOrMedication: _selectedFoodMedication ?? '',
-      severity: int.tryParse(_severityController.text) ?? 0,
+      severity: _severity,
       notes: _descriptionController.text,
       timestamp: widget.event.timestamp,
     );
 
-    Navigator.of(context).pop(updatedEvent);
+    Navigator.of(context).pop(updatedEvent); // Return the updated event
   }
 
   void _deleteEvent() {
-    Navigator.of(context).pop(true); // Signal for event deletion
+    if (mounted) {
+      Navigator.of(context).pop(null); // Return null when the event is deleted
+    }
   }
 
   @override
@@ -307,14 +314,32 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               //       const InputDecoration(labelText: 'Symptom Category'),
               // ),
               TextFormField(
-                controller: _severityController,
-                decoration: const InputDecoration(labelText: 'Severity (0-10)'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Notes'),
+                decoration:
+                    const InputDecoration(labelText: 'Additional Notes'),
               ),
+              const SizedBox(height: 20),
+              const Text(
+                'Symptom Severity (0-10)',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 97, 97, 97),
+                ),
+              ),
+              const SizedBox(height: 10),
+              NumberStepper(
+                // Replace TextField with NumberStepper
+                initialValue: _severity,
+                min: 0,
+                max: 10,
+                step: 1,
+                onChanged: (value) {
+                  setState(() {
+                    _severity = value;
+                  });
+                },
+              ),
+
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _updateEvent,

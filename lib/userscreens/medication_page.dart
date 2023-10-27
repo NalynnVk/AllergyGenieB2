@@ -32,127 +32,92 @@ class _MedPageState extends State<MedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              itemCount: medications.length,
-              itemBuilder: (context, index) {
-                final medication = medications[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15.0, horizontal: 23.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(16.0),
-                      title: Text(
-                        medication.name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Dosage : ${medication.dosage}'),
-                          Text('Time : ${medication.time.format(context)}'),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                  'Repeats : ${_getRepetitionText(medication.repetition)}'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      trailing: Wrap(
-                        spacing: 12, // Spacing between buttons
-                        children: [
-                          Column(
-                            children: [
-                              Switch(
-                                value: medication.isEnabled,
-                                onChanged: (value) {
-                                  setState(() {
-                                    medication.isEnabled = value;
-                                  });
-                                },
-                              ),
-                              Text(
-                                'Enabled',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Color.fromARGB(255, 255, 104, 139),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    editedMedication = medication;
-                                    nameController.text = medication.name;
-                                    dosageController.text = medication.dosage;
-                                    selectedTime = medication.time;
-                                    selectedRepetition = medication.repetition;
-                                  });
-                                  _showEditDialog(context, index);
-                                },
-                              ),
-                              Text(
-                                'Edit',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Color.fromARGB(255, 255, 104, 139),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    medications.removeAt(index);
-                                  });
-                                },
-                              ),
-                              Text(
-                                'Delete',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Scaffold(
+        // borderRadius: BorderRadius.circular(15),
+        // appBar: AppBar(
+        //   title: Text('Medication Reminders'),
+        //   centerTitle: true,
+        // ),
+        body: ListView.builder(
+          itemCount: medications.length,
+          itemBuilder: (context, index) {
+            final medication = medications[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              elevation: 2.0,
+              margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListTile(
+                  title: Text(
+                    medication.name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          editedMedication = null;
-          _showAddDialog(context);
-        },
-        child: Icon(Icons.add),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Dosage   : ${medication.dosage}'),
+                      Text('Time        : ${medication.time.format(context)}'),
+                      Text(
+                          'Repeats   : ${_getRepetitionText(medication.repetition)}'),
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Switch(
+                        value: medication.isEnabled,
+                        onChanged: (value) {
+                          setState(() {
+                            medication.isEnabled = value;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            editedMedication = medication;
+                            nameController.text = medication.name;
+                            dosageController.text = medication.dosage;
+                            selectedTime = medication.time;
+                            selectedRepetition = medication.repetition;
+                          });
+                          _showEditDialog(context, index);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            medications.removeAt(index);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            editedMedication = null;
+            _showAddDialog(context);
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -175,17 +140,26 @@ class _MedPageState extends State<MedPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add Medication Reminder'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          title: Center(child: Text('Medication Reminder')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Medication Name'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(labelText: 'Medication Name'),
+                ),
               ),
-              TextField(
-                controller: dosageController,
-                decoration: InputDecoration(labelText: 'Dosage'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: dosageController,
+                  decoration: InputDecoration(labelText: 'Dosage'),
+                ),
               ),
               ListTile(
                 title: Text(
@@ -213,22 +187,27 @@ class _MedPageState extends State<MedPage> {
                   ),
                 ),
               ),
-              Text('Repetition:'),
-              DropdownButton<MedicationRepetition>(
-                value: selectedRepetition,
-                items: MedicationRepetition.values
-                    .map(
-                      (repetition) => DropdownMenuItem<MedicationRepetition>(
-                        value: repetition,
-                        child: Text(_getRepetitionText(repetition)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedRepetition = value!;
-                  });
-                },
+              ListTile(
+                title: Text(
+                  'Repetition:',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                trailing: DropdownButton<MedicationRepetition>(
+                  value: selectedRepetition,
+                  items: MedicationRepetition.values
+                      .map(
+                        (repetition) => DropdownMenuItem<MedicationRepetition>(
+                          value: repetition,
+                          child: Text(_getRepetitionText(repetition)),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedRepetition = value!;
+                    });
+                  },
+                ),
               ),
             ],
           ),
@@ -275,4 +254,106 @@ class _MedPageState extends State<MedPage> {
   Future<void> _showEditDialog(BuildContext context, int index) async {
     await _showAddDialog(context);
   }
+
+//   Future<void> _showEditDialog(BuildContext context, int index) async {
+//   final medication = medications[index]; // Get the medication being edited
+
+//   // Set the initial values for the controllers and selected values
+//   nameController.text = medication.name;
+//   dosageController.text = medication.dosage;
+//   selectedTime = medication.time;
+//   selectedRepetition = medication.repetition;
+
+//   await showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: Text('Edit Medication Reminder'),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: <Widget>[
+//             TextField(
+//               controller: nameController,
+//               decoration: InputDecoration(labelText: 'Medication Name'),
+//             ),
+//             TextField(
+//               controller: dosageController,
+//               decoration: InputDecoration(labelText: 'Dosage'),
+//             ),
+//             ListTile(
+//               title: Text(
+//                 'Time:',
+//                 style: TextStyle(fontSize: 18.0),
+//               ),
+//               trailing: TextButton(
+//                 onPressed: () async {
+//                   final selectedNewTime = await showTimePicker(
+//                     context: context,
+//                     initialTime: selectedTime,
+//                   );
+//                   if (selectedNewTime != null) {
+//                     setState(() {
+//                       selectedTime = selectedNewTime;
+//                     });
+//                   }
+//                 },
+//                 child: Text(
+//                   selectedTime.format(context),
+//                   style: TextStyle(
+//                     fontSize: 18.0,
+//                     color: Theme.of(context).primaryColor,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Text('Repetition:'),
+//             DropdownButton<MedicationRepetition>(
+//               value: selectedRepetition,
+//               items: MedicationRepetition.values
+//                   .map(
+//                     (repetition) => DropdownMenuItem<MedicationRepetition>(
+//                       value: repetition,
+//                       child: Text(_getRepetitionText(repetition)),
+//                     ),
+//                   )
+//                   .toList(),
+//               onChanged: (value) {
+//                 setState(() {
+//                   selectedRepetition = value!;
+//                 });
+//               },
+//             ),
+//           ],
+//         ),
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: Text('Cancel'),
+//           ),
+//           TextButton(
+//             onPressed: () {
+//               setState(() {
+//                 final editedMedication = medications[index]; // Get the edited medication
+//                 medications[index] = Medication(
+//                   nameController.text,
+//                   dosageController.text,
+//                   selectedTime,
+//                   repetition: selectedRepetition,
+//                   isEnabled: editedMedication.isEnabled,
+//                 );
+//                 nameController.clear();
+//                 dosageController.clear();
+//                 editedMedication = null;
+//                 Navigator.of(context).pop();
+//               });
+//             },
+//             child: Text('Save'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 }
