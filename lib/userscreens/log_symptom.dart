@@ -81,7 +81,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Event Details'),
+        title: const Text('Health Journal'),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),

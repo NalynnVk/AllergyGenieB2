@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Allergy Genie',
+      // title: 'Allergy Genie',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.deepPurple,
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 22.0),
+                  const SizedBox(height: 10.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Container(
@@ -121,42 +121,42 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      child: DropdownButtonFormField<String>(
-                        value: selectedUserType,
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedUserType = newValue;
-                          });
-                        },
-                        items: <String>['User', 'Admin'].map((String userType) {
-                          return DropdownMenuItem<String>(
-                            value: userType,
-                            child: Text(
-                              userType,
-                              style: const TextStyle(
-                                fontSize: 20, // Increase the font size
-                                color: Colors.black, // Text color
-                                fontWeight: FontWeight.bold, // Text style
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        isExpanded:
-                            true, // To make it fill the container horizontally
-                        iconSize: 30, // Adjust the icon size
-                        style: const TextStyle(
-                          fontSize: 20, // Adjust the font size
-                        ),
-                      ),
+                      // child: DropdownButtonFormField<String>(
+                      //   value: selectedUserType,
+                      //   onChanged: (newValue) {
+                      //     setState(() {
+                      //       selectedUserType = newValue;
+                      //     });
+                      //   },
+                      //   items: <String>['User', 'Admin'].map((String userType) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: userType,
+                      //       child: Text(
+                      //         userType,
+                      //         style: const TextStyle(
+                      //           fontSize: 20, // Increase the font size
+                      //           color: Colors.black, // Text color
+                      //           fontWeight: FontWeight.bold, // Text style
+                      //         ),
+                      //       ),
+                      //     );
+                      //   }).toList(),
+                      //   decoration: const InputDecoration(
+                      //     border: InputBorder.none,
+                      //   ),
+                      //   isExpanded:
+                      //       true, // To make it fill the container horizontally
+                      //   iconSize: 30, // Adjust the icon size
+                      //   style: const TextStyle(
+                      //     fontSize: 20, // Adjust the font size
+                      //   ),
+                      // ),
                     ),
                   ),
-                  const SizedBox(height: 33.0),
+                  // const SizedBox(height: 33.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 3),
+                        horizontal: 16.0, vertical: 5),
                     child: ElevatedButton(
                       onPressed: () {
                         if (selectedUserType == 'User') {

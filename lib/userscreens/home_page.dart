@@ -1,4 +1,5 @@
 import 'package:calendar/userscreens/medication_page.dart';
+import 'package:calendar/userscreens/report_page.dart';
 // import 'package:calendar/userscreens/report_page.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -99,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         int _severity = 0; // Initial severity value
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           scrollable: true,
           title: const Center(
@@ -357,6 +358,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     _selectedEvents.value = _getEventsForDay(_selectedDay);
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue, // Set the button color to pink
+                ),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Center(child: Text("Save")),
@@ -439,16 +443,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
           centerTitle: true,
           bottom: TabBar(
             tabs: const [
-              Tab(icon: Icon(Icons.home_filled), text: 'Home'),
-              Tab(icon: Icon(Icons.medical_services), text: 'Reminder'),
-              Tab(icon: Icon(Icons.article_rounded), text: 'Insight'),
+              Tab(icon: Icon(Icons.calendar_month_sharp), text: 'Today'),
+              Tab(icon: Icon(Icons.alarm), text: 'Meds'),
+              Tab(icon: Icon(Icons.insights), text: 'Report'),
+              Tab(icon: Icon(Icons.article), text: 'Insight'),
               Tab(icon: Icon(Icons.person), text: 'Profile'),
             ],
             onTap: (index) {
@@ -485,7 +490,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: BoxShape.circle,
                         ),
                         selectedDecoration: BoxDecoration(
-                          color: Colors.deepPurpleAccent,
+                          color: Colors.blue,
                           shape: BoxShape.circle,
                         ),
                         markersMaxCount: 1,
@@ -529,7 +534,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: value.map((event) {
                             return Card(
                               // 8. Use cards for event list
-                              child: Padding(
+                              child: Container(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListTile(
                                   // title: Text(event.foodOrMedication),
@@ -562,16 +567,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             MedPage(),
+            ReportPage(),
             const InsightPage(),
             ProfilePage(),
           ],
         ),
         floatingActionButton: _currentTabIndex == 0
-            ? FloatingActionButton(
-                onPressed: () {
-                  _createEvent();
-                },
-                child: const Icon(Icons.add),
+            ? Theme(
+                data: ThemeData(
+                  primarySwatch: Colors.grey,
+                ),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    _createEvent();
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white, // Set the color to white
+                  ),
+                  backgroundColor:
+                      Colors.blue, // Set the background color of the button
+                ),
               )
             : null,
         bottomNavigationBar:

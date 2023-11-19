@@ -42,7 +42,7 @@ class _NumberStepperState extends State<NumberStepper> {
               }
             });
           },
-          icon: Icon(Icons.remove_circle, color: Colors.amber),
+          icon: Icon(Icons.remove_circle, color: Colors.blueGrey),
         ),
         Text(
           _currentValue.toString(),
@@ -57,7 +57,7 @@ class _NumberStepperState extends State<NumberStepper> {
               }
             });
           },
-          icon: Icon(Icons.add_circle, color: Colors.amber),
+          icon: Icon(Icons.add_circle, color: Colors.blueGrey),
         ),
       ],
     );
